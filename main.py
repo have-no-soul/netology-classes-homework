@@ -8,8 +8,7 @@ class Student:
         self.grades = {}
 
     def rate_lecturer(self, lecturer, course, grade):
-        if isinstance(lecturer,
-                      Lecturer) and course in lecturer.courses_attached and course in self.courses_in_progress:
+        if isinstance(lecturer, Lecturer) and course in lecturer.courses_attached and course in self.courses_in_progress:
             if course in lecturer.grades:
                 lecturer.grades[course] += [grade]
             else:
@@ -78,50 +77,76 @@ class Reviewer(Mentor):
         return reviewer_info
 
 
-# some_reviewer = Reviewer('Mary', 'Jane')
-# print(some_reviewer)
-# print()
-#
-# some_lecturer = Lecturer('Tony', 'Stark')
-# some_lecturer.grades = {'Python': 9, 'Git': 6, 'Java': 8}
-# print(some_lecturer)
-# print()
-
-# Экземпляры студентов
+# Экземпляр Студента-1
 student_1 = Student('Peter', 'Parker', 'male')
-student_1.grades = {'Python': 8, 'Git': 9, 'Java': 6, 'React': 7}
 student_1.courses_in_progress = ['Python', 'Git']
 student_1.finished_courses = ['Java', 'React']
 
+# Экземпляр Студента-2
 student_2 = Student('Harry', 'Osborn', 'male')
-student_2.grades = {'Python': 6, 'Java': 8, 'React': 10}
 student_2.courses_in_progress = ['Python']
 student_2.finished_courses = ['React']
 
-# Экземпляры лекторов
+# Экземпляр Лектора-1
 lecturer_1 = Lecturer('Tony', 'Stark')
 lecturer_1.courses_attached = ['Python', 'Git']
-lecturer_1.grades = {'Python': 9, 'Git': 6}
 
+# Экземпляр Лектора-2
 lecturer_2 = Lecturer('Steven', 'Rogers')
-lecturer_2.courses_attached = ['React']
-lecturer_2.grades = {'React': 8}
+lecturer_2.courses_attached = ['Python', 'React']
 
+# Экземпляр Ревьюера-1
+reviewer_1 = Reviewer('Natasha', 'Romanov')
+reviewer_1.courses_attached = ['Python']
 
+# Экземпляр Ревьюера-2
+reviewer_2 = Reviewer('Hulk', 'Hogan')
+reviewer_2.courses_attached = ['Git', 'React']
+
+# Методы
+student_1.rate_lecturer(lecturer_1, 'Python', 10)
+student_1.rate_lecturer(lecturer_1, 'Git', 8)
+
+student_2.rate_lecturer(lecturer_2, 'Python', 9)
+
+reviewer_1.rate_hw(student_1, 'Python', 9)
+reviewer_1.rate_hw(student_1, 'Python', 5)  # Добавляем 2-ое ДЗ по курсу, дабы проверить расчет средней по оценкам курса
+reviewer_1.rate_hw(student_2, 'Python', 8)
+
+reviewer_2.rate_hw(student_1, 'Git', 7)
+
+# Две функции
 students_list = [student_1, student_2]
 lecturers_list = [lecturer_1, lecturer_2]
-
-# print(list(students_list[1].grades))
 
 
 def students_avg_grades(students_list, course_name):
     counter = 0
-    avg_grade = 0
-    for i in students_list:
-        if course_name in list(students_list[counter].grades):
-            counter += 1
-    print(counter)
-    print(avg_grade)
+    sum_grade = 0
+    for student in students_list:
+        if course_name in student.grades:
+            counter += len(student.grades[course_name])
+            sum_grade += sum(student.grades[course_name])
+        else:
+            return f'Нет такого курса'
+
+    return round((sum_grade / counter), 2)
 
 
-print(students_avg_grades(students_list, 'Python'))
+print(students_avg_grades(students_list, 'Git'))
+
+
+def lecturers_avg_grades(lecturers_list, course_name):
+    counter = 0
+    sum_grade = 0
+    for lecturer in lecturers_list:
+        if course_name in lecturer.grades:
+            counter += len(lecturer.grades[course_name])
+            sum_grade += sum(lecturer.grades[course_name])
+        else:
+            return f'Нет такого курса'
+
+    return round((sum_grade / counter), 2)
+
+
+print(lecturers_avg_grades(lecturers_list, 'Git'))
