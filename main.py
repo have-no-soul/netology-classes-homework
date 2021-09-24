@@ -127,8 +127,6 @@ def students_avg_grades(students_list, course_name):
         if course_name in student.grades:
             counter += len(student.grades[course_name])
             sum_grade += sum(student.grades[course_name])
-        else:
-            return f'Нет такого курса'
 
     return round((sum_grade / counter), 2)
 
@@ -143,8 +141,6 @@ def lecturers_avg_grades(lecturers_list, course_name):
         if course_name in lecturer.grades:
             counter += len(lecturer.grades[course_name])
             sum_grade += sum(lecturer.grades[course_name])
-        else:
-            return f'Нет такого курса'
 
     return round((sum_grade / counter), 2)
 
