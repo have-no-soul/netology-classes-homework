@@ -111,12 +111,17 @@ lecturer_2.grades = {'React': 8}
 students_list = [student_1, student_2]
 lecturers_list = [lecturer_1, lecturer_2]
 
-print(students_list[1].grades)
+# print(list(students_list[1].grades))
 
 
-# def students_avg_grades(students_list, course_name):
-    # for i in students_list:
-    #     if course_name in list(students_list(i).grades):
+def students_avg_grades(students_list, course_name):
+    counter = 0
+    avg_grade = 0
+    for i in students_list:
+        if course_name in list(students_list[counter].grades):
+            counter += 1
+    print(counter)
+    print(avg_grade)
 
 
-# print(students_avg_grades(students_list, 'Git'))
+print(students_avg_grades(students_list, 'Python'))
